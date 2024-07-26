@@ -1,0 +1,1 @@
+AWS_ENDPOINT_URL=http://localstack:4566 tflocal plan -out=tfplan.out

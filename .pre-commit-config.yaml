@@ -1,0 +1,38 @@
+---
+repos:
+  - repo: "https://github.com/pre-commit/pre-commit-hooks"
+    rev: v4.1.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-byte-order-marker
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-xml
+      - id: check-yaml
+      - id: detect-aws-credentials
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: fix-encoding-pragma
+      - id: mixed-line-ending
+      - id: no-commit-to-branch
+      - id: pretty-format-json
+      # - id: trailing-whitespace-fixer
+  - repo: "https://github.com/gruntwork-io/pre-commit"
+    rev: v0.1.17
+    hooks:
+      # - id: gofmt
+      - id: helmlint
+      - id: shellcheck
+      - id: terraform-fmt
+      - id: terraform-validate
+      - id: tflint
+      - id: yapf
+  - repo: "git@github.com:CXEPI/terraform-docs-pre-commit-hook.git"
+    rev: "v0.0.3"
+    hooks:
+      - id: terraform_docs
+        args:
+          - --config=.terraform-docs.yml
+          - ./
