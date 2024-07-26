@@ -1,0 +1,11 @@
+services:
+  runtime:
+    build: .
+    tty: true
+    volumes:
+      - ../:/workspace
+    environment:
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - S3_HOSTNAME=localstack
+  localstack:
+    image: "localstack/localstack:latest"
