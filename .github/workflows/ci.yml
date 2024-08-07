@@ -1,0 +1,77 @@
+name: OPA Terraform Validation
+on:  pull_request
+
+jobs:
+  get-working-directories: 
+    name: 'Get Terraform Directories'
+    runs-on: ubuntu-latest
+    outputs:
+        terraform_dirs: ${{steps.directories.outputs.terraform_dirs}}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get Directories
+        id: directories
+        working-directory: ./terraform
+        run: | 
+          DIRS=[\"$(ls -dm */ | sed 's/ /"/g' | sed 's/\//"/g' | tr -d '\n')]
+          echo "terraform_dirs=${DIRS}" 
+          echo "terraform_dirs=${DIRS}" >> $GITHUB_OUTPUT
+      
+  run-opa-tests:
+    permissions: write-all
+    name: 'Run OPA Tests - ${{ matrix.terraform_dirs }}'
+    needs: [get-working-directories]
+    strategy:
+      fail-fast: false
+      matrix:
+        terraform_dirs: ${{ fromJson(needs.get-working-directories.outputs.terraform_dirs) }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Conftest
+        run: |
+          wget https://github.com/open-policy-agent/conftest/releases/download/v0.54.0/conftest_0.54.0_linux_amd64.deb
+          sudo dpkg -i conftest_0.54.0_linux_amd64.deb
+          conftest -v
+      - name: Install terraform-local
+        run: |
+          pip install terraform-local
+      - name: Start LocalStack
+        uses: LocalStack/setup-localstack@v0.2.2
+        with:
+          image-tag: 'latest'
+      - name: Terraform Init
+        working-directory: ./terraform/${{ matrix.terraform_dirs }}
+        run: tflocal init
+      - name: Terraform Plan
+        working-directory: ./terraform/${{ matrix.terraform_dirs }}
+        run: |
+          tflocal plan -input=false -out tfplan.out
+          tflocal show --json tfplan.out > tfplan.json
+      - name: Print Terraform Plan
+        working-directory: ./terraform/${{ matrix.terraform_dirs }}
+        run: |
+          jq . tfplan.json
+          jq . tfplan.json > tfplan-pretty-${{ matrix.terraform_dirs }}.json
+      - name: Store Terraform Plan Output
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan-output-${{ matrix.terraform_dirs }}
+          path: ./terraform/${{ matrix.terraform_dirs }}/tfplan.json
+      - name: Validate OPA
+        working-directory: ./terraform/${{ matrix.terraform_dirs }}
+        run: |
+          conftest test --all-namespaces -p ../../policies --trace tfplan.json > opa-trace-${{ matrix.terraform_dirs }}.txt
+          conftest test --all-namespaces -p ../../policies tfplan.json --output github
+      - name: Print OPA Trace
+        if: always()
+        working-directory: ./terraform/${{ matrix.terraform_dirs }}
+        run: cat opa-trace-${{ matrix.terraform_dirs }}.txt
+      - name: Store OPA Trace
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: opa-trace-${{ matrix.terraform_dirs }}
+          path: ./terraform/${{ matrix.terraform_dirs }}/opa-trace-${{ matrix.terraform_dirs }}.txt
+      
+      
