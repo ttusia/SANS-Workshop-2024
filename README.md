@@ -36,13 +36,16 @@ Github Actions
 
 ## Workshop
 
-We will do the _Setup_, _Review an OPA Policy_ and _Exercise 1_ as a group. The remainder will be done independently.
+We will do the _Setup_, _Review the Pipeline_, _Review an OPA Policy_ and _Exercise 1_ as a group. The remainder will be done independently.
 
 ### Setup
 1. Fork the repo into your own account (this is to allow you to use the github runners)
 2. Checkout the repo to your local machine
 3. Create a branch work from
 4. Open your code in you preferred IDE
+
+### Review the pipeline
+Github actions defines it's pipeline in .github/workflows/ci.yml. Lets take a look at the steps it performs to do validation of the planned Terraform.
 
 ### Review an OPA Policy
 There is already two OPA Policy created in:
