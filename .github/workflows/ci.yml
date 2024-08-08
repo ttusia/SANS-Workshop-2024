@@ -61,7 +61,7 @@ jobs:
       - name: Validate OPA
         working-directory: ./terraform/${{ matrix.terraform_dirs }}
         run: |
-          conftest test --all-namespaces -p ../../policies --trace tfplan.json > opa-trace-${{ matrix.terraform_dirs }}.txt
+          conftest test --all-namespaces -p ../../policies --trace tfplan.json > opa-trace-${{ matrix.terraform_dirs }}.txt || true
           conftest test --all-namespaces -p ../../policies tfplan.json --output github
       - name: Print OPA Trace
         if: always()
