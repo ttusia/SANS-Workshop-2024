@@ -26,8 +26,10 @@ Options to formatting the json output:
 - If you have jq installed you can run: ```jq . tfplan.json > tfplan-pretty.json```
 - You can paste the JSON into this website and have it formatted for you (in a real world scenario the terraform output could have sensitive data in it and this is not recommended): https://jsonformatter.org/
 
-##  Debugging with Github Actions
-Github Actions
+##  Debugging with GitHub Actions
+In our simulated scenario, GitHub actions is our CI tool and also provides the gating for our OPA rules. It runs a containerized environment that executes the terraform plans and OPA validations. Using this we can both gate our work flow as well as test our changes without the need for specific tooling on our local machine.
+
+We will walkthrough this process in the [Setup](#setup) and [Exercise 1 - Github Actions and a Failing Pipeline](#exercise-1---github-actions-and-a-failing-pipeline)
 
 ## Reference Materials
 - [OPA Overview](https://www.openpolicyagent.org/docs/latest/#rego)
@@ -36,10 +38,10 @@ Github Actions
 
 ## Workshop
 
-We will do the _Setup_, _Review the Pipeline_, _Review an OPA Policy_ and _Exercise 1_ as a group. The remainder will be done independently.
+We will do the [Setup](#setup), [Review the Pipeline](#review-the-pipeline), [Review an OPA Policy](#review-an-opa-policy) and [Exercise 1](#exercise-1---github-actions-and-a-failing-pipeline) as a group. The remainder will be done independently.
 
 ### Setup
-1. Fork the repo into your own account (this is to allow you to use the github runners)
+1. Fork the repo into your own account (this will allow you to use the github runners)
 2. Checkout the repo to your local machine
 3. Create a branch work from
 4. Open your code in you preferred IDE
