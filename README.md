@@ -50,7 +50,9 @@ We use conftest to evaluate our terraform output against our policies.
 
 From the folder where the terraform output was created, run: ```conftest test --all-namespaces -p /workspace/policies tfplan.json --output json```
 
-It will output if the policies that are written are successful or fail. Example:
+It will output if the policies that are written are successful or fail.
+
+Example:
 ```json
 [
         {
