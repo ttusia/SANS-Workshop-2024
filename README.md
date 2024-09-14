@@ -20,7 +20,7 @@ _This will require a AWS account to test against or localstack running._
 ### Containerized Environment
 
 #### Starting the debugging Environment 
-1. Open a command prompt or terminal in the deme-env directory.
+1. Open a command prompt or terminal in the demo-env directory.
 2. Run ```docker-compose up``` or ```podman compose up```. If this is the first time you are starting the containers it may take a little time for it to download everything and start. 
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
