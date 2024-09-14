@@ -158,7 +158,8 @@ Things to think about:
 
 Links: 
 
-
+## Questions
+* Why do we do we evaluate the plan vs the terraform directly? Although our examples are very simple, terraform can get compmlex with levels of indirection through the use of multiple files and modules. The plan is the evaluation of all that combine and gives us a single file for evaluation.
 
 
 
