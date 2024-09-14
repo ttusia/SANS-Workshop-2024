@@ -17,14 +17,61 @@
 ### Conftest and Terraform
 _This will require a AWS account to test against or localstack running._
 
-
 ### Containerized Environment
-Container
 
-Options to formatting the json output:
+#### Starting the debugging Environment 
+1. Open a command prompt or terminal in the deme-env directory.
+2. Run ```docker-compose up``` or ```podman compose up```. If this is the first time you are starting the containers it may take a little time for it to download everything and start. 
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+This starts 2 containers: 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  a) confest/terraform debugging environment <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b) a localstack environment that simulates an AWS account.
+
+3. In a new terminal type ```docker exec -it demo-env-runtime-1 bash``` or ```podman exec -it demo-env-runtime-1 bash```. This will open a shell in our debugging environment.
+   
+NOTE : _The working directory in the container is workspace_
+
+#### Creating terraform output files
+
+1. Enter the terraform directory containing the terraform you are working with, for example run: ```cd /workspace/terraform/rds``` or ```cd /workspace/terraform/s3```
+2. Run ```tflocal init``` to initialize terraform. _If you are familar with terraform you will notice we are using tflocal instead of terraform. This is to leverage localstack to simulate our AWS account_
+3. Run ```tflocal plan --out tfplan.binary``` to create a plan for the terraform file and output it as a binary.
+4. Run ```tflocal show -json tfplan.binary > tfplan.json``` to generate the json terraform output the we will evaluate with OPA.
+
+
+#### Options to formatting the json output:
+The output of the tflocal show will not have whitepace formatting, making it hard to read, you can use one of the following options to format the code:
 - IDEs like VSCode you can right click and select Format and the document will be formatted
 - If you have jq installed you can run: ```jq . tfplan.json > tfplan-pretty.json```
 - You can paste the JSON into this website and have it formatted for you (in a real world scenario the terraform output could have sensitive data in it and this is not recommended): https://jsonformatter.org/
+
+#### Evaluating our terraform plan output
+We use conftest to evaluate our terraform output against our policies.
+
+From the folder where the terraform output was created, run: ```conftest test --all-namespaces -p /workspace/policies tfplan.json --output json```
+
+It will output if the policies that are written are successful or fail. Example:
+```json
+[
+        {
+                "filename": "tfplan.json",
+                "namespace": "aws.validation",
+                "successes": 1,
+                "failures": [
+                        {
+                                "msg": "RDS should not specify passwords",
+                                "metadata": {
+                                        "details": {
+                                                "rds_with_password": [
+                                                        "my_db"
+                                                ]
+                                        }
+                                }
+                        }
+                ]
+        }
+]
+```
 
 ##  Debugging with GitHub Actions
 In our simulated scenario, GitHub actions is our CI tool and also provides the gating for our OPA rules. It runs a containerized environment that executes the terraform plans and OPA validations. Using this we can both gate our work flow as well as test our changes without the need for specific tooling on our local machine.
@@ -63,31 +110,35 @@ In this exercise we want to trigger Github Actions to run our OPA checks, see th
 4. Open the repo in a browser and browse to your PR
 5. Open the link to the failing action _Run OPA Tests - rds_
 6. Under the failing Validate OPA step expand the Testing 'tfplan.json' against 2 policies in namespace 'aws.validation' section. What is the error?
-7. Open the terraform for the RDS in terraform/rds/main.tf and fix the problem (hit there is a comment that )
+7. Open the terraform for the RDS in terraform/rds/main.tf and fix the problem (hint there is a comment that )
 8. Commit and push the code
 9. The OPA checks should succeed now.
 
-### Exercise 2 - Enforce Encryption of S3 Buckets
-In this exercise we want to ensure our buckets are encrypted.
-1. Open the terraform/s3/main.tf files. You should see the lines commented out to enable SSE (server side encryption)
-2. If you have your local environment setup you can run the steps to generate the plan outputs with and without SSE enabled. Otherwise the plan files are in testfiles/aws/s3/encryption
+### Exercise 2 - Enforce Encryption of RDS
+In this exercise we want to ensure our databases are encrypted.
+1. Open the terraform/rds/main.tf files. You should see that storage encryption (```storage_encrypted```) is disabled
+2. If you have your local environment setup you can run the steps to generate the plan outputs with ```storage_encrypted``` set to true and false. Otherwise the plan files are in testfiles/aws/rds/encryption
 3. Evaluate the difference in the plan outputs. 
-4. Write a policy in the policies/s3 folder
+4. Write a policy in the policies/rds folder
+
+_Bonus_ - In terraform if a parameter is not required, it will have a default value if it is not specified. In the case of ```storage_encrypted``` encryption the default value is false. Remove the ```storage_encrypted``` parameter and redo the plan (or look in testfiles/aws/rds/encryption/not-set). How does this compare to the other plan outputs? Will your policy need to be updated to cover this case?
 
 ### Exercise 3 - Enforce Tagging Resources
 In this exercise we want to ensure all our resources have proper tags.
 1. Open the terraform/rds/main.tf and the terraform/s3/main.tf files. You should see the lines commented out to enable tagging.
 2. If you have your local environment setup you can run the steps to generate the plan outputs with and without tagging enabled. Otherwise the plan files are in testfiles/aws/s3/tagging and testfiles/aws/rds/tagging
 3. Evaluate the difference in the plan outputs. 
-4. Write a policy in the policies folder that requires a data_classification and resource_owner_email tag.
+4. Write a policy in the policies folder that requires a data_classification and owner_email tag.
 
-### Exercise 4 - Put in Exception Case Encryption of S3 Public Buckets
-In the exercise 2 we ensured our S3 buckets were encrypted, but that may not always be required, for instance html assets for a public website. We put in an exception to the encryption requirement if someone has tagged their bucket as public.
-1. Open the terraform/s3/main.tf files.
+_Bonus_ - Some AWS resources do not support tags, for example [Security Hub](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/securityhub_account). What will happen when your policy evaluates the terraform plan for Security Hub? You can uncomment out the terraform for Security Hub in terraform/securityhub and run an plan (or look in testfiles/aws/securityhub). Will your policy need to be updated to cover this case?
+
+### Exercise 4 - Put in Exception Case Encryption of Databases
+In the exercise 2 we ensured our RDS instances were encrypted, but that may not always be required, for example if we are storing public data. We will put in an exception to the encryption requirement if someone has tagged their RDS instance as public.
+1. Open the terraform/rds/main.tf files.
 2. Locate the data_classification tag.
-2. If you have your local environment setup you can run the steps to generate the plan outputs with data_classification set to public and private. Otherwise the plan files are in testfiles/aws/s3/exception_for_encryption
+2. If you have your local environment setup you can run the steps to generate the plan outputs with data_classification set to public and private. Otherwise the plan files are in testfiles/aws/rds/exception_for_encryption
 3. Evaluate the difference in the plan outputs. 
-4. Update the policy in the policies/s3 folder that you wrote in Exercise 3
+4. Update the policy in the policies/rds folder that you wrote in Exercise 3
 
 ### Bonus
 By default new buckets don't allow public access. We can use the terraform resource [s3_bucket_public_access_block](https://registry.terraform.io/providers/hashicorp/aws/3.24.1/docs/resources/s3_bucket_public_access_block) to allow a bucket to be public.

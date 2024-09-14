@@ -160,3 +160,5 @@ terraform.rc
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,intellij,eclipse,terraform,terragrunt
 
 **/.DS_Store
+terraform/*/tfplan.binary
+terraform/*/tfplan.json

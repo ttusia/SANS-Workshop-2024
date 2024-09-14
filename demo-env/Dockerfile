@@ -1,7 +1,7 @@
 FROM alpine:3.20
 
 RUN apk update && \ 
-    apk add git python3 py3-pip gcc python3-dev musl-dev linux-headers libffi-dev  && \
+    apk add git python3 py3-pip gcc python3-dev musl-dev linux-headers libffi-dev bash  && \
     ln -sf python3 /usr/bin/python   && \
     ln -sf pip3 /usr/bin/pip && \ 
     LATEST_VERSION=$(wget -O - "https://api.github.com/repos/open-policy-agent/conftest/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c 2-) && \
