@@ -132,6 +132,20 @@ In this exercise we want to ensure all our resources have proper tags.
 3. Evaluate the difference in the plan outputs. 
 4. Write a policy in the policies folder that requires a data_classification and owner_email tag.
 
+Hint:
+
+>! Undefined or null references will cause the expression block to halt and ext immediately. If you have checks for null, break them up into multiple expressions, wrap in functions, or use a combination of ```is_object(resource)``` and  ```contains_element(object.keys(resource), "KEY")```
+
+
+_Bonus_ - Have you validated the tagging values? Making sure people are providing good data is important for resource tagging. Ensure that the values are constrained to:
+* data_classification is either public or private
+* owner_email is a valid email address. 
+
+Hint: 
+>! Rego supports regex expressions to do the email validation: https://docs.styra.com/opa/rego-by-example/builtins/regex
+
+
+
 _Bonus_ - Some AWS resources do not support tags, for example [Security Hub](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/securityhub_account). What will happen when your policy evaluates the terraform plan for Security Hub? You can uncomment out the terraform for Security Hub in terraform/securityhub and run an plan (or look in testfiles/aws/securityhub). Will your policy need to be updated to cover this case?
 
 ### Exercise 4 - Put in Exception Case Encryption of Databases
@@ -142,8 +156,22 @@ In the exercise 2 we ensured our RDS instances were encrypted, but that may not 
 3. Evaluate the difference in the plan outputs. 
 4. Update the policy in the policies/rds folder that you wrote in Exercise 3
 
+Hint:
+
+>! You can chain multiple checks together on multiple lines (in a rule body), and they evaluate with and.
+
+Hint 2:
+
+>! There is no intrinsic or in rego, but if you have 2 boolean expressions that are assigned to the same value they will use an or for the assignment. [How to express OR in Rego](https://www.styra.com/blog/how-to-express-or-in-rego/)
+
+Hint 3: 
+>! If you need to nest an and within an or, try putting use a function to wrap the and statement [Functions](https://www.openpolicyagent.org/docs/latest/policy-language/#functions)
+
+Hint 4
+>! If you want a function to have a default value if the evaluation fails, you can add a default value, like  ``` funcName(args) if { LOGIC} else := false```
+
 ### Bonus
-By default new buckets don't allow public access. We can use the terraform resource [s3_bucket_public_access_block](https://registry.terraform.io/providers/hashicorp/aws/3.24.1/docs/resources/s3_bucket_public_access_block) to allow a bucket to be public.
+By default new buckets don't allow public access. We can use the terraform resource [s3_bucket_public_access_block](https://registry.terraform.io/providers/hashicorp/aws/3.24.1/docs/resources/s3_bucket_public_access_block) to allow a bucket to be public (also plan is in testfiles/aws/s3/allow-public).
 
 Can you put a restriction in that enforces that a bucket being made public, is also tagged as public? Update the terraform, run some plans and see.
 
@@ -159,7 +187,9 @@ Things to think about:
 Links: 
 
 ## Questions
-* Why do we do we evaluate the plan vs the terraform directly? Although our examples are very simple, terraform can get compmlex with levels of indirection through the use of multiple files and modules. The plan is the evaluation of all that combine and gives us a single file for evaluation.
+* Why do we do we evaluate the plan vs the terraform directly? Although our examples are very simple, terraform can get complex with levels of indirection through the use of multiple files and modules. The plan is the evaluation of all that combine and gives us a single file for evaluation.
+* My trace statements are not printing, why? Make sure you are not specifying an output, like ```--output json```, since this will suppress printed messages or trace statements.
+* My tests are passing when they should fail, why? OPA evaluation will silently fail if it gets a null reference. Try using a print statement (```print(<VARIABLE>```)) of what you are evaluating to see what is being checked.
 
 
 
