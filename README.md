@@ -20,6 +20,7 @@ During this workshop we will complete the [Setup](#setup), [Working with code lo
 
 ## Setup
 **Fork the repository and first Github Action**
+
 1. Fork the repo into your own account, allowing you to use the github runners. This can be done using the fork button at the top of the repository page.<br>
 <img src="https://i.imgur.com/I2P0oyh.png" alt="Fork repo" height="30"/>
 1. Click "Create a new fork"<br>
