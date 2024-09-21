@@ -2,6 +2,29 @@
 
 During this workshop we will complete the [Setup](#setup), [Working with code locally](#working-with-code-locally), [Review the Pipeline](#review-the-pipeline), [Review an OPA Policy](#review-an-opa-policy) and [Exercise 1](#exercise-1---github-actions-and-a-failing-pipeline) as a group. The remainder will be done independently.
 
+## Table of Contents
+1. [Prerequisites](#prerequisites)
+1. [Reference Materials](#reference-materials)
+1. [Setup](#setup)
+1. [Working with code locally](#working-with-code-locally)
+    1. [Using the Command Line](#using-the-command-line)
+1. [Development with GitHub Actions](#development-with-github-actions)
+1. [Development with Rego Playground](#development-with-rego-playground)
+1. [Local Development - Optiona](#local-development---optiona)
+    1. [Creating terraform output files](#creating-terraform-output-files)
+    1. [Options for formatting the json output](#options-for-formatting-the-json-output)
+    1. [Evaluating our terraform plan output](#evaluating-our-terraform-plan-output)
+1. [Exercises](#exercises)
+    1. [Review the pipeline](#review-the-pipeline)
+    1. [Review an OPA Policy](#review-an-opa-policy)
+    1. [Exercise 1 - Github Actions and a Failing Pipeline](#exercise-1---github-actions-and-a-failing-Pipeline)
+    1. [Exercise 2 - Enforce Encryption of RDS](#exercise-2---enforce-encryption-of-rds)
+    1. [Exercise 3 - Enforce Tagging Resource](#exercise-3---enforce-tagging-resource)
+    1. [Exercise 4 - Put in Exception Case Encryption of Databases](#exercise-4---put-in-exception-case-encryption-of-databases)
+    1. [Bonus Exercise](#bonus-exercise)
+1. [Next Steps](#next-steps)
+1. [Questions you may have](#questions-you-may-have)
+
 ## Prerequisites 
 **Required**
 * Github.com Account
@@ -118,7 +141,7 @@ _Note: If you are running locally against a real AWS account replace tflocal wit
 4. Run: ```tflocal show -json tfplan.binary > tfplan.json``` to generate the json terraform output the we will evaluate with OPA.
 
 
-### Options to formatting the json output:
+### Options for formatting the json output
 The output of the ```tflocal/terraform show``` will not have whitespace formatting, making it hard to read, consider using one of the following options to format the code:
 - Use IDEs like VSCode, for example to formant a document right click and select Format and the document will be formatted
 - With jq installed, run: ```jq . tfplan.json > tfplan-pretty.json```
@@ -155,9 +178,6 @@ Example:
 ]
 ```
 
-1. Open your code in your preferred IDE.
-1. Create a sample commit and push the code up to the repository using your preferred method. From a command prompt ```git add .; git commit -m'sample commit; git push --set-upstream origin workshop'``` 
-1. Open up the browser to your forked version of the code (https://github.com/<YOUR_GITHUB_ID>/SANS-Workshop-2024).
 
 ## Exercises
 
@@ -259,7 +279,7 @@ By default new buckets don't allow public access. We can use the terraform resou
 
 Can you add a restriction that enforces that a bucket that is made public and is also tagged as public? Update the terraform, run some plans and see.
 
-## From Here
+## Next Steps
 
 Repository Setup:
 * This is just a sample project. Typically the OPA Policies and the terraform would live in separate repositories so the policies can be shared across multiple terraform repos.
@@ -269,7 +289,7 @@ Things to think about:
 * Better messaging for errors - Make your error messages as descriptive as possible to help developers understand why the policy is failing.
 
 
-## Questions
+## Questions you may have
 * Why do we do we evaluate the plan vs the terraform directly? Although our examples are very simple, terraform can get complex with levels of indirection through the use of multiple files and modules. The plan is an output of all that combined and gives us a single file for evaluation.
 * Why are my trace statements are not printing. Make sure you are not specifying an output, like ```--output json```, as this will suppress printed messages or trace statements.
 * My tests are passing when they should fail, why? OPA evaluation will silently fail if it gets a null reference. Try using a print statement (```print(<VARIABLE>```) of what you are evaluating to see what is being checked.
