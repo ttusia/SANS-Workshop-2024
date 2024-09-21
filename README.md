@@ -22,38 +22,38 @@ During this workshop we will complete the [Setup](#setup), [Working with code lo
 **Fork the repository and first Github Action**
 
 1. Fork the repo into your own account, allowing you to use the github runners. This can be done using the fork button at the top of the repository page.<br>
-  <img src="https://i.imgur.com/I2P0oyh.png" alt="Fork repo" height="30"/>
+    <img src="https://i.imgur.com/I2P0oyh.png" alt="Fork repo" height="30"/>
 1. Click "Create a new fork"<br>
-  <img src="https://i.imgur.com/SLJaHeH.png" alt="Create fork" height="60"/>
+    <img src="https://i.imgur.com/SLJaHeH.png" alt="Create fork" height="60"/>
 1. On the "Create a new fork" page, at the bottom click "Create fork"<br>
-  <img src="https://i.imgur.com/kpsYZI7.png" alt="Create fork button" height="30"/>
+    <img src="https://i.imgur.com/kpsYZI7.png" alt="Create fork button" height="30"/>
 1. Open up the browser to your forked version of the code (https://github.com/<YOUR_GITHUB_ID>/SANS-Workshop-2024).
 1. Select the "Actions" Tab <br>
-  <img src="https://i.imgur.com/t7aVNod.png" alt="Actions Tab" height="30"/>
+    <img src="https://i.imgur.com/t7aVNod.png" alt="Actions Tab" height="30"/>
 1. Click "Enable Action on this repository" <br>
-  <img src="https://i.imgur.com/GGyUQkH.png" alt="Enable Actions" height="30"/>
+    <img src="https://i.imgur.com/GGyUQkH.png" alt="Enable Actions" height="30"/>
 1. Click back to the "Code" tab.<br>
-  <img src="https://i.imgur.com/6giwVXG.png" alt="Code tab" height="30"/>
+    <img src="https://i.imgur.com/6giwVXG.png" alt="Code tab" height="30"/>
 1. Create a branch by clicking the branch button that will say "main", then enter the branch name "workshop", and click "Create branch workshop from main"<br>
-  <img src="https://i.imgur.com/RHgXbvC.png" alt="branch menu" width="200"/>
+    <img src="https://i.imgur.com/RHgXbvC.png" alt="branch menu" width="200"/>
 1. Where the README is being display click the pencil button to edit the read me.<br>
-  <img src="https://i.imgur.com/3pYMjin.png" alt="readme-edit" width="200"/>
+    <img src="https://i.imgur.com/3pYMjin.png" alt="readme-edit" width="200"/>
 1. Add a minor change to the file (like a period at the end on the title). Then click the "Commit changes..." button.<br>
-  <img src="https://i.imgur.com/kiDWRQ5.png" alt="Commit changes button" height="30"/>
+    <img src="https://i.imgur.com/kiDWRQ5.png" alt="Commit changes button" height="30"/>
 1. On the "Commit Changes" dialog, click the "Commit changes" button (you can also update the commit message).<br>
-  <img src="https://i.imgur.com/iuTZUGp.png" alt="Commit changes button" height="200"/>
+    <img src="https://i.imgur.com/iuTZUGp.png" alt="Commit changes button" height="200"/>
 1. Click "Pull Requests" tab. <br>
-  <img src="https://i.imgur.com/xHnQzoT.png" alt="PR tab" height="30"/>
+    <img src="https://i.imgur.com/xHnQzoT.png" alt="PR tab" height="30"/>
 1. There should be a message at the top indicating your new branch has changed, click the "Compare & pull request" button".<br>
-  <img src="https://i.imgur.com/Gh1iZL5.png" alt="PR message" height="30"/>
+    <img src="https://i.imgur.com/Gh1iZL5.png" alt="PR message" height="30"/>
 1. On the Open a pull request page, select the destination to be your version of the repository and the main branch, and your version of the repository and your new branch.<br>
-  <img src="https://i.imgur.com/OOdEc4X.png" alt="PR message" height="70"/>
+    <img src="https://i.imgur.com/OOdEc4X.png" alt="PR message" height="70"/>
 1. Click the "Create pull request" button.<br>
-  <img src="https://i.imgur.com/oj6KTjI.png" alt="Create pull request button" height="30"/>
+    <img src="https://i.imgur.com/oj6KTjI.png" alt="Create pull request button" height="30"/>
 1. Give the actions about 30 seconds to start and you should see them begin to run.<br>
-  <img src="https://i.imgur.com/ESTJOie.png" alt="PR action decorator" height="70"/>
+    <img src="https://i.imgur.com/ESTJOie.png" alt="PR action decorator" height="70"/>
 1. Clicking one of the "Detail links will take you to the action (alternatively you can click the Actions tab at the top and select the running action).<br>
-  <img src="https://i.imgur.com/ezoPaJ6.png" alt="Action page" height="150"/>
+    <img src="https://i.imgur.com/ezoPaJ6.png" alt="Action page" height="150"/>
 
 _Congrats, you have successfully run your first pipeline action with Policy as Code gating._
 
