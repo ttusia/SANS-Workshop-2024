@@ -1,5 +1,7 @@
 # SANS CloudSecNext Summit 2024 - Security Configuration Management in the Cloud: Policy as Code for CI/CD Gating
 
+During this workshop we will complete the [Setup](#setup), [Working with code locally](#working-with-code-locally), [Review the Pipeline](#review-the-pipeline), [Review an OPA Policy](#review-an-opa-policy) and [Exercise 1](#exercise-1---github-actions-and-a-failing-pipeline) as a group. The remainder will be done independently.
+
 ## Prerequisites 
 **Required**
 * Github.com Account
@@ -10,6 +12,65 @@
 * Installed locally: Docker/Docker Compose OR Podman/Podman Compose
 * Installed locally: Conftest
 * Installed locally: Terraform
+
+## Reference Materials
+- [OPA Overview](https://www.openpolicyagent.org/docs/latest/#rego)
+- [OPA Language Reference](https://www.openpolicyagent.org/docs/latest/policy-reference/)
+- [OPA Cheat Sheet](https://docs.styra.com/opa/rego-cheat-sheet)
+
+## Setup
+**Fork the repository and first Github Action**
+1. Fork the repo into your own account, allowing you to use the github runners. This can be done using the fork button at the top of the repository page.<br>
+<img src="https://i.imgur.com/I2P0oyh.png" alt="Fork repo" height="30"/>
+1. Click "Create a new fork"<br>
+![Create fork](https://i.imgur.com/SLJaHeH.png)
+1. On the "Create a new fork" page, at the bottom click "Create fork"<br>
+![Create fork button](https://i.imgur.com/kpsYZI7.png)
+1. Open up the browser to your forked version of the code (https://github.com/<YOUR_GITHUB_ID>/SANS-Workshop-2024).
+1. Select the "Actions" Tab <br>
+<img src="https://i.imgur.com/t7aVNod.png" alt="Actions Tab" height="30"/>
+1. Click "Enable Action on this repository" <br>
+![Enable Actions](https://i.imgur.com/GGyUQkH.png)
+1. Click back to the "Code" tab.<br>
+<img src="https://i.imgur.com/6giwVXG.png" alt="Code tab" height="30"/>
+1. Create a branch by clicking the branch button that will say "main", then enter the branch name "workshop", and click "Create branch workshop from main"<br>
+<img src="https://i.imgur.com/RHgXbvC.png" alt="branch menu" width="200"/>
+1. Where the README is being display click the pencil button to edit the read me.<br>
+<img src="https://i.imgur.com/3pYMjin.png" alt="readme-edit" width="200"/>
+1. Add a minor change to the file (like a period at the end on the title). Then click the "Commit changes..." button.<br>
+<img src="https://i.imgur.com/kiDWRQ5.png" alt="Commit changes button" height="30"/>
+1. On the "Commit Changes" dialog, click the "Commit changes" button (you can also update the commit message).<br>
+<img src="https://i.imgur.com/iuTZUGp.png" alt="Commit changes button" height="200"/>
+1. Click "Pull Requests" tab. <br>
+<img src="https://i.imgur.com/xHnQzoT.png" alt="PR tab" height="30"/>
+1. There should be a message at the top indicating your new branch has changed, click the "Compare & pull request" button".<br>
+<img src="https://i.imgur.com/Gh1iZL5.png" alt="PR message" height="30"/>
+1. On the Open a pull request page, select the destination to be your version of the repository and the main branch, and your version of the repository and your new branch.<br>
+<img src="https://i.imgur.com/OOdEc4X.png" alt="PR message" height="70"/>
+1. Click the "Create pull request" button.<br>
+<img src="https://i.imgur.com/oj6KTjI.png" alt="Create pull request button" height="30"/>
+1. Give the actions about 30 seconds to start and you should see them begin to run.<br>
+<img src="https://i.imgur.com/ESTJOie.png" alt="PR action decorator" height="70"/>
+1. Clicking one of the "Detail links" will take you to the action (alternatively you can click the Actions tab at the top and select the running action).
+
+_Congrats, you have successfully run your first pipeline action with Policy as Code gating._
+
+
+## Working with code locally
+
+### Using the Command Line
+
+**Download the code to your local machine**
+
+Clone the repo to your local machine using your preferred method. From a command prompt run: ```git clone https://github.com/<YOUR_GITHUB_ID>/SANS-Workshop-2024.git```
+
+**Upload the code back to the repository**
+
+When you are ready to commit code back to the repository:
+* Run: ```git add .``` stage the code for committing
+* Run: ```git commit``` to commit the code the change
+* Run ```git push``` to push the code up to the remote repository
+
 
 ##  Development with GitHub Actions
 In our simulated scenario, GitHub actions is our CI tool and also provides the gating for our OPA rules. It runs a containerized environment that executes the terraform plans and OPA validations. Using this we can both gate our work flow as well as test our changes without the need for specific tooling on our local machine.
@@ -69,27 +130,11 @@ Example:
 ]
 ```
 
-## Reference Materials
-- [OPA Overview](https://www.openpolicyagent.org/docs/latest/#rego)
-- [OPA Language Reference](https://www.openpolicyagent.org/docs/latest/policy-reference/)
-- [OPA Cheat Sheet](https://docs.styra.com/opa/rego-cheat-sheet)
+1. Open your code in your preferred IDE.
+1. Create a sample commit and push the code up to the repository using your preferred method. From a command prompt ```git add .; git commit -m'sample commit; git push --set-upstream origin workshop'``` 
+1. Open up the browser to your forked version of the code (https://github.com/<YOUR_GITHUB_ID>/SANS-Workshop-2024).
 
-## Workshop
-
-During this workshop we will complete the [Setup](#setup), [Review the Pipeline](#review-the-pipeline), [Review an OPA Policy](#review-an-opa-policy) and [Exercise 1](#exercise-1---github-actions-and-a-failing-pipeline) as a group. The remainder will be done independently.
-
-### Setup
-1. Fork the repo into your own account, allowing you to use the github runners. This can be done using the fork button at the top of the repository page.
-![Fork repo](https://i.imgur.com/I2P0oyh.png)
-2. Clone the repo to your local machine using your preferred method. From a command prompt run: ```git clone https://github.com/<YOUR_GITHUB_ID>/SANS-Workshop-2024.git```
-3. Create a branch work from using your preferred method. From a command prompt ```git checkout -b workshop```
-4. Open your code in your preferred IDE.
-5. Create a sample commit and push the code up to the repository using your preferred method. From a command prompt ```git add .; git commit -m'sample commit; git push --set-upstream origin workshop' 
-6. Open up the browser to your forked version of the code (https://github.com/<YOUR_GITHUB_ID>/SANS-Workshop-2024).
-7. Click "Pull Requests". Then "New pull request"
-8. Select the destination to be your version of the repository and the main branch, and your version of the repository and your new branch.
-9. Open the Pull Request, and look for "Continuous integration has not been set up" and select "GitHub Actions".
-10. ***Enable "Actions" on the action tab, can be moved up probably.
+## Exercises
 
 ### Review the pipeline
 Github Actions defines a workflow pipeline in [.github/workflows/ci.yml](.github/workflows/ci.yml). Lets take a look at the steps it performs to do validation of the planned Terraform.
