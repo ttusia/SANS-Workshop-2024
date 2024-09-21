@@ -82,7 +82,7 @@ During this workshop we will complete the [Setup](#setup), [Working with code lo
 1. Clicking one of the "Detail links will take you to the action (alternatively you can click the Actions tab at the top and select the running action).<br>
     <img src="https://i.imgur.com/ezoPaJ6.png" alt="Action page" height="150"/>
 
-_Congrats, you have successfully run your first pipeline action with Policy as Code gating._
+:fireworks: _Congrats, you have successfully run your first pipeline action with Policy as Code gating._ :fireworks: 
 
 
 ## Working with code locally
