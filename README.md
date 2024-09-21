@@ -51,12 +51,14 @@ During this workshop we will complete the [Setup](#setup), [Working with code lo
 <img src="https://i.imgur.com/oj6KTjI.png" alt="Create pull request button" height="30"/>
 1. Give the actions about 30 seconds to start and you should see them begin to run.<br>
 <img src="https://i.imgur.com/ESTJOie.png" alt="PR action decorator" height="70"/>
-1. Clicking one of the "Detail links" will take you to the action (alternatively you can click the Actions tab at the top and select the running action).
+1. Clicking one of the "Detail links will take you to the action (alternatively you can click the Actions tab at the top and select the running action).<br>
+<img src="https://i.imgur.com/ezoPaJ6.png" alt="Action page" height="150"/>
 
 _Congrats, you have successfully run your first pipeline action with Policy as Code gating._
 
 
 ## Working with code locally
+There are many ways to pull the source code to your local machine. We will detail using the command line, but you can choose your preferred method
 
 ### Using the Command Line
 
@@ -67,15 +69,37 @@ Clone the repo to your local machine using your preferred method. From a command
 **Upload the code back to the repository**
 
 When you are ready to commit code back to the repository:
+* cd into the directory you want the code checked out.
 * Run: ```git add .``` stage the code for committing
-* Run: ```git commit``` to commit the code the change
+* Run: ```git commit -m'updates to workshop'``` to commit the code the change
 * Run ```git push``` to push the code up to the remote repository
 
+Here is what the output will look like:
+```console
+SANS-Workshop-2024$ git add .
+SANS-Workshop-2024$ git commit -m'updates to workshop'
+[main 41a7ade] updates to workshop
+ 1 file changed, 65 insertions(+), 20 deletions(-)
+SANS-Workshop-2024$ git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 1.69 KiB | 1.69 MiB/s, done.
+Total 3 (delta 2), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To github.com:SANS-Workshop/SANS-Workshop-2024.git
+   1109cbc..41a7ade  main -> main
+```
+
+If you committed to a branch with an active PR, you can navigate back to your repository in github.com and see the action executing.
+
+Now you can open the code you just checked out in your preferred IDE.
 
 ##  Development with GitHub Actions
 In our simulated scenario, GitHub actions is our CI tool and also provides the gating for our OPA rules. It runs a containerized environment that executes the terraform plans and OPA validations. Using this we can both gate our work flow as well as test our changes without the need for specific tooling on our local machine.
 
-We will walkthrough this process in the [Setup](#setup) and [Exercise 1 - Github Actions and a Failing Pipeline](#exercise-1---github-actions-and-a-failing-pipeline)
+We walked through initiating an action in the [Setup](#setup) section. We will further want through it in [Exercise 1 - Github Actions and a Failing Pipeline](#exercise-1---github-actions-and-a-failing-pipeline)
 
 ## Development with Rego Playground
 We can use the [Rego Playground](https://play.openpolicyagent.org/) to do virtual development. We can copy the terraform plan outputs into the input section and work on the policy in the coding section. The rego output is displayed in the outputs and any print statements have display in the browser's developer console.
