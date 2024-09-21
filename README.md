@@ -23,14 +23,14 @@ During this workshop we will complete the [Setup](#setup), [Working with code lo
 1. Fork the repo into your own account, allowing you to use the github runners. This can be done using the fork button at the top of the repository page.<br>
 <img src="https://i.imgur.com/I2P0oyh.png" alt="Fork repo" height="30"/>
 1. Click "Create a new fork"<br>
-![Create fork](https://i.imgur.com/SLJaHeH.png)
+<img src="https://i.imgur.com/SLJaHeH.png" alt="Create fork" height="60"/>
 1. On the "Create a new fork" page, at the bottom click "Create fork"<br>
-![Create fork button](https://i.imgur.com/kpsYZI7.png)
+<img src="https://i.imgur.com/kpsYZI7.png" alt="Create fork button" height="30"/>
 1. Open up the browser to your forked version of the code (https://github.com/<YOUR_GITHUB_ID>/SANS-Workshop-2024).
 1. Select the "Actions" Tab <br>
 <img src="https://i.imgur.com/t7aVNod.png" alt="Actions Tab" height="30"/>
 1. Click "Enable Action on this repository" <br>
-![Enable Actions](https://i.imgur.com/GGyUQkH.png)
+<img src="https://i.imgur.com/GGyUQkH.png" alt="Enable Actions" height="30"/>
 1. Click back to the "Code" tab.<br>
 <img src="https://i.imgur.com/6giwVXG.png" alt="Code tab" height="30"/>
 1. Create a branch by clicking the branch button that will say "main", then enter the branch name "workshop", and click "Create branch workshop from main"<br>
