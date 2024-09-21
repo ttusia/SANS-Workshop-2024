@@ -80,6 +80,7 @@ During this workshop we will complete the [Setup](#setup), [Review the Pipeline]
 
 ### Setup
 1. Fork the repo into your own account, allowing you to use the github runners. This can be done using the fork button at the top of the repository page.
+![Fork repo](https://i.imgur.com/I2P0oyh.png)
 2. Clone the repo to your local machine using your preferred method. From a command prompt run: ```git clone https://github.com/<YOUR_GITHUB_ID>/SANS-Workshop-2024.git```
 3. Create a branch work from using your preferred method. From a command prompt ```git checkout -b workshop```
 4. Open your code in your preferred IDE.
@@ -200,5 +201,5 @@ Things to think about:
 
 ## Questions
 * Why do we do we evaluate the plan vs the terraform directly? Although our examples are very simple, terraform can get complex with levels of indirection through the use of multiple files and modules. The plan is an output of all that combined and gives us a single file for evaluation.
-* Wahy are my trace statements are not printing. Make sure you are not specifying an output, like ```--output json```, as this will suppress printed messages or trace statements.
-* My tests are passing when they should fail, why? OPA evaluation will silently fail if it gets a null reference. Try using a print statement (```print(<VARIABLE>```)) of what you are evaluating to see what is being checked.
+* Why are my trace statements are not printing. Make sure you are not specifying an output, like ```--output json```, as this will suppress printed messages or trace statements.
+* My tests are passing when they should fail, why? OPA evaluation will silently fail if it gets a null reference. Try using a print statement (```print(<VARIABLE>```) of what you are evaluating to see what is being checked.
